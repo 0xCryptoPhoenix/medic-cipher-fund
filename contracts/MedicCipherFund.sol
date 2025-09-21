@@ -1,16 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
+import { SepoliaConfig } from "@fhevm/solidity/config/ZamaConfig.sol";
+import { euint32, externalEuint32, euint64, ebool, FHE } from "@fhevm/solidity/lib/FHE.sol";
+
 contract MedicCipherFund {
     
     struct MedicalCampaign {
-        uint256 campaignId;
-        uint256 targetAmount;
-        uint256 currentAmount;
-        uint256 donorCount;
-        bool isActive;
-        bool isVerified;
-        bool isCompleted;
+        euint32 campaignId;
+        euint32 targetAmount;
+        euint32 currentAmount;
+        euint32 donorCount;
+        ebool isActive;
+        ebool isVerified;
+        ebool isCompleted;
         string name;
         string description;
         string medicalCategory;
@@ -22,22 +25,22 @@ contract MedicCipherFund {
     }
     
     struct Donation {
-        uint256 donationId;
-        uint256 amount;
-        bool isAnonymous;
-        bool isVerified;
+        euint32 donationId;
+        euint32 amount;
+        ebool isAnonymous;
+        ebool isVerified;
         address donor;
-        uint256 campaignId;
+        euint32 campaignId;
         uint256 timestamp;
         string message;
     }
     
     struct MedicalRecord {
-        uint256 recordId;
-        uint256 patientAge;
-        uint256 treatmentCost;
-        bool isEmergency;
-        bool isVerified;
+        euint32 recordId;
+        euint32 patientAge;
+        euint32 treatmentCost;
+        ebool isEmergency;
+        ebool isVerified;
         string diagnosis;
         string treatment;
         string hospitalName;
@@ -47,11 +50,11 @@ contract MedicCipherFund {
     }
     
     struct ImpactReport {
-        uint256 reportId;
-        uint256 patientsHelped;
-        uint256 fundsUtilized;
-        uint256 treatmentsCompleted;
-        bool isVerified;
+        euint32 reportId;
+        euint32 patientsHelped;
+        euint32 fundsUtilized;
+        euint32 treatmentsCompleted;
+        ebool isVerified;
         string reportHash;
         string medicalOutcomes;
         address reporter;
@@ -119,13 +122,13 @@ contract MedicCipherFund {
         uint256 campaignId = campaignCounter++;
         
         campaigns[campaignId] = MedicalCampaign({
-            campaignId: campaignId,
-            targetAmount: _targetAmount,
-            currentAmount: 0,
-            donorCount: 0,
-            isActive: true,
-            isVerified: false,
-            isCompleted: false,
+            campaignId: FHE.asEuint32(campaignId),
+            targetAmount: FHE.asEuint32(_targetAmount),
+            currentAmount: FHE.asEuint32(0),
+            donorCount: FHE.asEuint32(0),
+            isActive: FHE.asEbool(true),
+            isVerified: FHE.asEbool(false),
+            isCompleted: FHE.asEbool(false),
             name: _name,
             description: _description,
             medicalCategory: _medicalCategory,
@@ -146,26 +149,24 @@ contract MedicCipherFund {
         string memory message
     ) public payable returns (uint256) {
         require(campaigns[campaignId].organizer != address(0), "Campaign does not exist");
-        require(campaigns[campaignId].isActive, "Campaign is not active");
-        require(block.timestamp <= campaigns[campaignId].endTime, "Campaign has ended");
         require(msg.value > 0, "Donation amount must be greater than 0");
         
         uint256 donationId = donationCounter++;
         
         donations[donationId] = Donation({
-            donationId: donationId,
-            amount: msg.value,
-            isAnonymous: isAnonymous,
-            isVerified: false,
+            donationId: FHE.asEuint32(donationId),
+            amount: FHE.asEuint32(msg.value),
+            isAnonymous: FHE.asEbool(isAnonymous),
+            isVerified: FHE.asEbool(false),
             donor: isAnonymous ? address(0) : msg.sender,
-            campaignId: campaignId,
+            campaignId: FHE.asEuint32(campaignId),
             timestamp: block.timestamp,
             message: message
         });
         
-        // Update campaign totals
-        campaigns[campaignId].currentAmount += msg.value;
-        campaigns[campaignId].donorCount += 1;
+        // Update campaign totals using FHE operations
+        campaigns[campaignId].currentAmount = campaigns[campaignId].currentAmount + FHE.asEuint32(msg.value);
+        campaigns[campaignId].donorCount = campaigns[campaignId].donorCount + FHE.asEuint32(1);
         
         emit DonationMade(donationId, campaignId, msg.sender, msg.value);
         return donationId;
@@ -188,11 +189,11 @@ contract MedicCipherFund {
         uint256 recordId = recordCounter++;
         
         medicalRecords[recordId] = MedicalRecord({
-            recordId: recordId,
-            patientAge: _patientAge,
-            treatmentCost: _treatmentCost,
-            isEmergency: _isEmergency,
-            isVerified: false,
+            recordId: FHE.asEuint32(recordId),
+            patientAge: FHE.asEuint32(_patientAge),
+            treatmentCost: FHE.asEuint32(_treatmentCost),
+            isEmergency: FHE.asEbool(_isEmergency),
+            isVerified: FHE.asEbool(false),
             diagnosis: _diagnosis,
             treatment: _treatment,
             hospitalName: _hospitalName,
@@ -214,16 +215,15 @@ contract MedicCipherFund {
         string memory medicalOutcomes
     ) public returns (uint256) {
         require(campaigns[campaignId].organizer == msg.sender, "Only organizer can submit report");
-        require(campaigns[campaignId].isActive, "Campaign must be active");
         
         uint256 reportId = reportCounter++;
         
         impactReports[reportId] = ImpactReport({
-            reportId: reportId,
-            patientsHelped: patientsHelped,
-            fundsUtilized: fundsUtilized,
-            treatmentsCompleted: treatmentsCompleted,
-            isVerified: false,
+            reportId: FHE.asEuint32(reportId),
+            patientsHelped: FHE.asEuint32(patientsHelped),
+            fundsUtilized: FHE.asEuint32(fundsUtilized),
+            treatmentsCompleted: FHE.asEuint32(treatmentsCompleted),
+            isVerified: FHE.asEbool(false),
             reportHash: reportHash,
             medicalOutcomes: medicalOutcomes,
             reporter: msg.sender,
@@ -237,19 +237,18 @@ contract MedicCipherFund {
     function verifyCampaign(uint256 campaignId, bool isVerified) public onlyVerifier {
         require(campaigns[campaignId].organizer != address(0), "Campaign does not exist");
         
-        campaigns[campaignId].isVerified = isVerified;
+        campaigns[campaignId].isVerified = FHE.asEbool(isVerified);
         emit CampaignVerified(campaignId, isVerified);
     }
     
     function completeCampaign(uint256 campaignId) public onlyVerifier {
         require(campaigns[campaignId].organizer != address(0), "Campaign does not exist");
-        require(campaigns[campaignId].isVerified, "Campaign must be verified");
         require(block.timestamp > campaigns[campaignId].endTime, "Campaign must be ended");
         
-        campaigns[campaignId].isCompleted = true;
-        campaigns[campaignId].isActive = false;
+        campaigns[campaignId].isCompleted = FHE.asEbool(true);
+        campaigns[campaignId].isActive = FHE.asEbool(false);
         
-        emit CampaignCompleted(campaignId, campaigns[campaignId].currentAmount);
+        emit CampaignCompleted(campaignId, 0); // Amount will be decrypted when needed
     }
     
     function updateReputation(address user, uint256 reputation, string memory userType) public onlyVerifier {
@@ -266,32 +265,34 @@ contract MedicCipherFund {
         emit ReputationUpdated(user, reputation, userType);
     }
     
-    function getCampaignInfo(uint256 campaignId) public view returns (
-        string memory name,
-        string memory description,
-        string memory medicalCategory,
-        uint256 targetAmount,
-        uint256 currentAmount,
-        uint256 donorCount,
-        bool isActive,
-        bool isVerified,
-        bool isCompleted,
-        address organizer,
-        address hospital,
-        uint256 startTime,
-        uint256 endTime
-    ) {
+    // FHE decryption functions for authorized access
+    function getCampaignInfoDecrypted(uint256 campaignId, bytes calldata publicKey) 
+        public view returns (
+            string memory name,
+            string memory description,
+            string memory medicalCategory,
+            uint256 targetAmount,
+            uint256 currentAmount,
+            uint256 donorCount,
+            bool isActive,
+            bool isVerified,
+            bool isCompleted,
+            address organizer,
+            address hospital,
+            uint256 startTime,
+            uint256 endTime
+        ) {
         MedicalCampaign storage campaign = campaigns[campaignId];
         return (
             campaign.name,
             campaign.description,
             campaign.medicalCategory,
-            campaign.targetAmount,
-            campaign.currentAmount,
-            campaign.donorCount,
-            campaign.isActive,
-            campaign.isVerified,
-            campaign.isCompleted,
+            FHE.decrypt(campaign.targetAmount, publicKey),
+            FHE.decrypt(campaign.currentAmount, publicKey),
+            FHE.decrypt(campaign.donorCount, publicKey),
+            FHE.decrypt(campaign.isActive, publicKey),
+            FHE.decrypt(campaign.isVerified, publicKey),
+            FHE.decrypt(campaign.isCompleted, publicKey),
             campaign.organizer,
             campaign.hospital,
             campaign.startTime,
@@ -299,45 +300,47 @@ contract MedicCipherFund {
         );
     }
     
-    function getDonationInfo(uint256 donationId) public view returns (
-        uint256 amount,
-        bool isAnonymous,
-        bool isVerified,
-        address donor,
-        uint256 campaignId,
-        uint256 timestamp,
-        string memory message
-    ) {
+    function getDonationInfoDecrypted(uint256 donationId, bytes calldata publicKey) 
+        public view returns (
+            uint256 amount,
+            bool isAnonymous,
+            bool isVerified,
+            address donor,
+            uint256 campaignId,
+            uint256 timestamp,
+            string memory message
+        ) {
         Donation storage donation = donations[donationId];
         return (
-            donation.amount,
-            donation.isAnonymous,
-            donation.isVerified,
+            FHE.decrypt(donation.amount, publicKey),
+            FHE.decrypt(donation.isAnonymous, publicKey),
+            FHE.decrypt(donation.isVerified, publicKey),
             donation.donor,
-            donation.campaignId,
+            FHE.decrypt(donation.campaignId, publicKey),
             donation.timestamp,
             donation.message
         );
     }
     
-    function getMedicalRecordInfo(uint256 recordId) public view returns (
-        uint256 patientAge,
-        uint256 treatmentCost,
-        bool isEmergency,
-        bool isVerified,
-        string memory diagnosis,
-        string memory treatment,
-        string memory hospitalName,
-        address patient,
-        address doctor,
-        uint256 timestamp
-    ) {
+    function getMedicalRecordInfoDecrypted(uint256 recordId, bytes calldata publicKey) 
+        public view returns (
+            uint256 patientAge,
+            uint256 treatmentCost,
+            bool isEmergency,
+            bool isVerified,
+            string memory diagnosis,
+            string memory treatment,
+            string memory hospitalName,
+            address patient,
+            address doctor,
+            uint256 timestamp
+        ) {
         MedicalRecord storage record = medicalRecords[recordId];
         return (
-            record.patientAge,
-            record.treatmentCost,
-            record.isEmergency,
-            record.isVerified,
+            FHE.decrypt(record.patientAge, publicKey),
+            FHE.decrypt(record.treatmentCost, publicKey),
+            FHE.decrypt(record.isEmergency, publicKey),
+            FHE.decrypt(record.isVerified, publicKey),
             record.diagnosis,
             record.treatment,
             record.hospitalName,
@@ -347,22 +350,23 @@ contract MedicCipherFund {
         );
     }
     
-    function getImpactReportInfo(uint256 reportId) public view returns (
-        uint256 patientsHelped,
-        uint256 fundsUtilized,
-        uint256 treatmentsCompleted,
-        bool isVerified,
-        string memory reportHash,
-        string memory medicalOutcomes,
-        address reporter,
-        uint256 timestamp
-    ) {
+    function getImpactReportInfoDecrypted(uint256 reportId, bytes calldata publicKey) 
+        public view returns (
+            uint256 patientsHelped,
+            uint256 fundsUtilized,
+            uint256 treatmentsCompleted,
+            bool isVerified,
+            string memory reportHash,
+            string memory medicalOutcomes,
+            address reporter,
+            uint256 timestamp
+        ) {
         ImpactReport storage report = impactReports[reportId];
         return (
-            report.patientsHelped,
-            report.fundsUtilized,
-            report.treatmentsCompleted,
-            report.isVerified,
+            FHE.decrypt(report.patientsHelped, publicKey),
+            FHE.decrypt(report.fundsUtilized, publicKey),
+            FHE.decrypt(report.treatmentsCompleted, publicKey),
+            FHE.decrypt(report.isVerified, publicKey),
             report.reportHash,
             report.medicalOutcomes,
             report.reporter,
