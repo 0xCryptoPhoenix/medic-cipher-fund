@@ -1,4 +1,4 @@
-import { Shield } from "lucide-react";
+import { Activity, Database, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import medicalCrossLogo from "@/assets/medical-cross-logo.png";
@@ -12,34 +12,34 @@ export const Header = () => {
           <div className="flex items-center space-x-2">
             <img 
               src={medicalCrossLogo} 
-              alt="Medic Cipher Fund Logo" 
+              alt="HealthVault Protocol Logo" 
               className="w-8 h-8"
             />
             <div className="font-semibold text-lg text-foreground">
-              Medic Cipher Fund
+              HealthVault Protocol
             </div>
           </div>
           <div className="hidden md:flex items-center space-x-1 text-sm text-muted-foreground">
-            <Shield className="w-4 h-4" />
-            <span>FHE-Encrypted Medical Funding</span>
+            <Database className="w-4 h-4" />
+            <span>Decentralized Medical Funding</span>
           </div>
         </div>
 
         {/* Main Title - Center */}
         <div className="hidden lg:block text-center">
           <h1 className="text-xl font-semibold text-foreground">
-            Privacy-Preserving Medical Funding
+            Revolutionary Healthcare Financing
           </h1>
           <p className="text-xs text-muted-foreground">
-            Secure • Regulated • FHE-Encrypted
+            Secure • Transparent • Community-Driven
           </p>
         </div>
 
         {/* Wallet Connection */}
         <div className="flex items-center space-x-4">
           <Button variant="outline" size="sm" className="hidden sm:flex">
-            <Shield className="w-4 h-4 mr-2" />
-            Regulator Access
+            <Activity className="w-4 h-4 mr-2" />
+            Analytics Dashboard
           </Button>
           <ConnectButton />
         </div>

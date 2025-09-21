@@ -1,21 +1,21 @@
-// Configuration for the Medic Cipher Fund application
+// Configuration for the HealthVault Protocol application
 export const config = {
   // Chain Configuration
   chainId: 11155111, // Sepolia testnet
-  rpcUrl: 'https://sepolia.infura.io/v3/b18fb7e6ca7045ac83c41157ab93f990',
+  rpcUrl: process.env.NEXT_PUBLIC_RPC_URL || 'https://sepolia.infura.io/v3/YOUR_INFURA_KEY',
   
   // Wallet Connect Configuration
-  walletConnectProjectId: '2ec9743d0d0cd7fb94dee1a7e6d33475',
+  walletConnectProjectId: process.env.NEXT_PUBLIC_WALLET_CONNECT_PROJECT_ID || 'YOUR_WALLET_CONNECT_PROJECT_ID',
   
   // Infura Configuration
-  infuraApiKey: 'b18fb7e6ca7045ac83c41157ab93f990',
+  infuraApiKey: process.env.NEXT_PUBLIC_INFURA_API_KEY || 'YOUR_INFURA_API_KEY',
   alternativeRpcUrl: 'https://1rpc.io/sepolia',
   
   // Application Configuration
-  appName: 'Medic Cipher Fund',
-  appDescription: 'A privacy-preserving medical funding platform using FHE encryption',
-  appUrl: 'https://medic-cipher-fund.vercel.app',
+  appName: 'HealthVault Protocol',
+  appDescription: 'A decentralized medical funding ecosystem with advanced privacy mechanisms',
+  appUrl: 'https://healthvault-protocol.vercel.app',
   
   // Contract Configuration
-  contractAddress: '0x0000000000000000000000000000000000000000', // Will be updated after deployment
+  contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS || '0x0000000000000000000000000000000000000000',
 } as const;

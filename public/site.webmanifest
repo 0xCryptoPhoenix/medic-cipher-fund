@@ -1,7 +1,7 @@
 {
-  "name": "Medic Cipher Fund",
-  "short_name": "MedicCipher",
-  "description": "Privacy-preserving medical funding platform using FHE encryption",
+  "name": "HealthVault Protocol",
+  "short_name": "HealthVault",
+  "description": "Decentralized medical funding ecosystem with advanced privacy mechanisms",
   "icons": [
     {
       "src": "/favicon-16x16.png",
