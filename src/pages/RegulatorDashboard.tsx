@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Shield, Eye, AlertTriangle, CheckCircle, Search, Download, FileText, Users, Building2, TrendingUp } from "lucide-react";
+import { Stethoscope, Eye, AlertTriangle, CheckCircle, Search, Download, FileText, Users, Building2, TrendingUp } from "lucide-react";
 
 const RegulatorDashboard = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -335,7 +335,7 @@ const RegulatorDashboard = () => {
                       <span>Investor Risk Assessment</span>
                     </Button>
                     <Button variant="outline" className="h-16 flex-col">
-                      <Shield className="w-6 h-6 mb-2" />
+                      <Stethoscope className="w-6 h-6 mb-2" />
                       <span>Transaction Audit Report</span>
                     </Button>
                     <Button variant="outline" className="h-16 flex-col">

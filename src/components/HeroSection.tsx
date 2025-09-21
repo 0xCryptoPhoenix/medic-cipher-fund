@@ -1,4 +1,4 @@
-import { ArrowRight, Shield, TrendingUp, Users, Lock } from "lucide-react";
+import { ArrowRight, Stethoscope, TrendingUp, Users, Lock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
@@ -29,7 +29,7 @@ export const HeroSection = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link to="/invest">
               <Button size="lg" className="medical-gradient text-primary-foreground medical-shadow">
-                <Shield className="w-5 h-5 mr-2" />
+                <Stethoscope className="w-5 h-5 mr-2" />
                 Invest in Healthcare
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
@@ -47,7 +47,7 @@ export const HeroSection = () => {
             <Card className="medical-shadow bg-card/80 backdrop-blur">
               <CardContent className="p-6 text-center">
                 <div className="w-12 h-12 mx-auto mb-4 rounded-full medical-gradient flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-primary-foreground" />
+                  <Stethoscope className="w-6 h-6 text-primary-foreground" />
                 </div>
                 <h3 className="font-semibold text-foreground mb-2">End-to-End Encryption</h3>
                 <p className="text-sm text-muted-foreground">

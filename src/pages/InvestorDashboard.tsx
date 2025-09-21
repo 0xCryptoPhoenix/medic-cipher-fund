@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Shield, TrendingUp, Clock, Building2, HeartPulse, Microscope, ArrowRight, Eye, DollarSign } from "lucide-react";
+import { Stethoscope, TrendingUp, Clock, Building2, HeartPulse, Microscope, ArrowRight, Eye, DollarSign } from "lucide-react";
 
 const InvestorDashboard = () => {
   const [selectedBond, setSelectedBond] = useState<string | null>(null);
@@ -207,7 +207,7 @@ const InvestorDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="text-center py-8 text-muted-foreground">
-                  <Shield className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <Stethoscope className="w-12 h-12 mx-auto mb-4 opacity-50" />
                   <p>Your portfolio details will appear here once you make your first investment.</p>
                 </div>
               </CardContent>
@@ -219,7 +219,7 @@ const InvestorDashboard = () => {
             <Card className="medical-shadow">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <Shield className="w-5 h-5" />
+                  <Stethoscope className="w-5 h-5" />
                   Regulatory Compliance & Documentation
                 </CardTitle>
                 <CardDescription>Access your investment documents and compliance certificates</CardDescription>

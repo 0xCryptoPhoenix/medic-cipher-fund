@@ -1,4 +1,4 @@
-import { Activity, Database, Zap } from "lucide-react";
+import { Activity, Database, Stethoscope } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import medicalCrossLogo from "@/assets/medical-cross-logo.png";
@@ -20,7 +20,7 @@ export const Header = () => {
             </div>
           </div>
           <div className="hidden md:flex items-center space-x-1 text-sm text-muted-foreground">
-            <Database className="w-4 h-4" />
+            <Stethoscope className="w-4 h-4" />
             <span>Decentralized Medical Funding</span>
           </div>
         </div>

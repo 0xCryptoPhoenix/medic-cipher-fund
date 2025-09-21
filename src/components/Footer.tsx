@@ -1,4 +1,4 @@
-import { Shield, Lock, Users, Globe } from "lucide-react";
+import { Stethoscope, Lock, Users, Globe } from "lucide-react";
 import hospitalIcon from "@/assets/hospital-icon.png";
 
 export const Footer = () => {
@@ -31,7 +31,7 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div className="space-y-4">
             <h3 className="font-semibold text-foreground flex items-center">
-              <Shield className="w-4 h-4 mr-2 text-primary" />
+              <Stethoscope className="w-4 h-4 mr-2 text-primary" />
               Security & Privacy
             </h3>
             <ul className="space-y-2 text-sm text-muted-foreground">

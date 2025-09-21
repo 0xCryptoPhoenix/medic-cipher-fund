@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { 
-  Shield, 
+  Stethoscope, 
   TrendingUp, 
   Eye, 
   EyeOff, 
@@ -96,7 +96,7 @@ export const Dashboard = () => {
         <Card className="medical-shadow">
           <CardHeader className="pb-2">
             <CardTitle className="text-sm font-medium flex items-center">
-              <Shield className="w-4 h-4 mr-2 text-encrypted" />
+              <Stethoscope className="w-4 h-4 mr-2 text-encrypted" />
               Encrypted Flows
             </CardTitle>
           </CardHeader>
